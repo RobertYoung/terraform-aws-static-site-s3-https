@@ -3,8 +3,9 @@ data "aws_route53_zone" "external" {
 }
 
 resource "aws_route53_record" "www" {
+  count   = "${length(var.host_names)}"
   zone_id = "${data.aws_route53_zone.external.zone_id}"
-  name    = "${var.host_name}"
+  name    = "${element(var.host_names, count.index)}"
   type    = "A"
 
   alias {

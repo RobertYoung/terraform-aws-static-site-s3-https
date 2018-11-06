@@ -3,7 +3,8 @@ provider "aws" {
 }
 
 resource "aws_acm_certificate" "default" {
-  domain_name       = "${var.certificate_domain}"
+  count             = "${length(var.certificate_domains)}"
+  domain_name       = "${element(var.certificate_domains, count.index)}"
   validation_method = "DNS"
 }
 
@@ -11,18 +12,23 @@ data "aws_route53_zone" "external" {
   name = "${var.domain_name}"
 }
 
+locals {
+  dvo = "${flatten(aws_acm_certificate.default.*.domain_validation_options)}"
+}
+
 resource "aws_route53_record" "validation" {
-  name    = "${aws_acm_certificate.default.domain_validation_options.0.resource_record_name}"
-  type    = "${aws_acm_certificate.default.domain_validation_options.0.resource_record_type}"
+
+  count   = "${length(var.certificate_domains)}"
   zone_id = "${data.aws_route53_zone.external.zone_id}"
-  records = ["${aws_acm_certificate.default.domain_validation_options.0.resource_record_value}"]
-  ttl     = "60"
+  ttl     = 60
+
+  name    = "${lookup(local.dvo[count.index], "resource_record_name")}"
+  type    = "${lookup(local.dvo[count.index], "resource_record_type")}"
+  records = ["${lookup(local.dvo[count.index], "resource_record_value")}"]
 }
 
 resource "aws_acm_certificate_validation" "default" {
-  certificate_arn = "${aws_acm_certificate.default.arn}"
-
-  validation_record_fqdns = [
-    "${aws_route53_record.validation.fqdn}",
-  ]
+  count                   = "${length(var.certificate_domains)}"
+  certificate_arn         = "${element(aws_acm_certificate.default.*.arn, count.index)}"
+  validation_record_fqdns = ["${aws_route53_record.validation.*.fqdn}"]
 }

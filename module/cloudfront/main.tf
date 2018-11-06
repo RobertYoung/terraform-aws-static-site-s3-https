@@ -1,19 +1,23 @@
+locals {
+  s3_origin_id = "S3${var.bucket_name}"
+}
+
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
     domain_name = "${var.domain_name}"
-    origin_id   = "${var.host_name}"
+    origin_id   = "${local.s3_origin_id}"
   }
 
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = "index.html"
 
-  aliases = ["${var.host_name}"]
+  aliases = "${var.host_names}"
 
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "${var.host_name}"
+    target_origin_id = "${local.s3_origin_id}"
 
     forwarded_values {
       query_string = false

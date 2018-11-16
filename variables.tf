@@ -20,7 +20,7 @@ variable "certificate_domains" {
   type = "list"
 
   default = [
-    "*.iamrobertyoung.co.uk",
     "iamrobertyoung.co.uk",
+    "*.iamrobertyoung.co.uk",
   ]
 }

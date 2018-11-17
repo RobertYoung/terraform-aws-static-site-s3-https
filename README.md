@@ -9,16 +9,7 @@
 
 ## Getting Started
 
-Update the variables in *variables.tf*.
-
 Terraform assumes that the domain name has already been registered on Route53.
-
-```sh
-terraform init
-terraform apply
-```
-
-main.tf
 
 ```sh
 # CloudFront requires the certificate to be in us-east-1
@@ -27,7 +18,7 @@ provider "aws" {
   region = "us-east-1"
 }
 
-module "s3-site-me-iamrobertyoung-co-uk" {
+module "my-site" {
   source = "github.com/robertyoung/terraform-aws-static-site-s3-https"
 
   host_names = [

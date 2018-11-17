@@ -20,7 +20,6 @@ variable "certificate_domains" {
   type = "list"
 
   default = [
-    "example.com",
     "me.example.com",
     "www.example.com",
   ]

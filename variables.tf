@@ -16,7 +16,7 @@ variable "domain_name" {
   default = "example.com"
 }
 
-variable "certificate_domains" {
+variable "additional_certificate_domains" {
   type = "list"
 
   default = [

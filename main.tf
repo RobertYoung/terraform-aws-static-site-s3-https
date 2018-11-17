@@ -13,7 +13,7 @@ module "cloudfront" {
 
 module "certificate-manager" {
   source              = "./module/certificate-manager"
-  certificate_domains = "${var.certificate_domains}"
+  additional_certificate_domains = "${var.additional_certificate_domains}"
   domain_name         = "${var.domain_name}"
 }
 

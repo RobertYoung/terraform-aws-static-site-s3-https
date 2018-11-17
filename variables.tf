@@ -2,25 +2,26 @@ variable "host_names" {
   type = "list"
 
   default = [
-    "iamrobertyoung.co.uk",
-    "me.iamrobertyoung.co.uk",
-    "www.iamrobertyoung.co.uk",
+    "example.com",
+    "me.example.com",
+    "www.example.com",
   ]
 }
 
 variable "bucket_name" {
-  default = "me.iamrobertyoung.co.uk"
+  default = "me.example.com"
 }
 
 variable "domain_name" {
-  default = "iamrobertyoung.co.uk"
+  default = "example.com"
 }
 
 variable "certificate_domains" {
   type = "list"
 
   default = [
-    "iamrobertyoung.co.uk",
-    "*.iamrobertyoung.co.uk",
+    "example.com",
+    "me.example.com",
+    "www.example.com",
   ]
 }

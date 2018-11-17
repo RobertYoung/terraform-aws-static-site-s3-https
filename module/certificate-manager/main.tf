@@ -7,13 +7,13 @@ data "aws_route53_zone" "external" {
 }
 
 resource "aws_acm_certificate" "default" {
-  domain_name = "${var.domain_name}"
+  domain_name               = "${var.domain_name}"
   subject_alternative_names = "${var.additional_certificate_domains}"
   validation_method         = "DNS"
 }
 
-locals {	
-  dvo = "${flatten(aws_acm_certificate.default.*.domain_validation_options)}"	
+locals {
+  dvo = "${flatten(aws_acm_certificate.default.*.domain_validation_options)}"
 }
 
 resource "aws_route53_record" "validation" {

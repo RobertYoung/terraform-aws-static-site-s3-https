@@ -12,9 +12,9 @@ module "cloudfront" {
 }
 
 module "certificate-manager" {
-  source              = "./module/certificate-manager"
+  source                         = "./module/certificate-manager"
   additional_certificate_domains = "${var.additional_certificate_domains}"
-  domain_name         = "${var.domain_name}"
+  domain_name                    = "${var.domain_name}"
 }
 
 module "route53" {

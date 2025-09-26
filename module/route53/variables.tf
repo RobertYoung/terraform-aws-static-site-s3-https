@@ -1,7 +1,13 @@
-variable "cloudfront_alias" {}
-variable "cloudfront_zone_id" {}
-variable "domain_name" {}
+variable "cloudfront_alias" {
+  type = string
+}
+variable "cloudfront_zone_id" {
+  type = string
+}
+variable "domain_name" {
+  type = string
+}
 
 variable "host_names" {
-  type = "list"
+  type = list(string)
 }

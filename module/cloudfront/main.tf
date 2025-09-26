@@ -4,20 +4,20 @@ locals {
 
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
-    domain_name = "${var.domain_name}"
-    origin_id   = "${local.s3_origin_id}"
+    domain_name = var.domain_name
+    origin_id   = local.s3_origin_id
   }
 
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = "index.html"
 
-  aliases = "${var.host_names}"
+  aliases = var.host_names
 
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "${local.s3_origin_id}"
+    target_origin_id = local.s3_origin_id
 
     forwarded_values {
       query_string = false
@@ -42,7 +42,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = "${var.certificate_arn}"
+    acm_certificate_arn      = var.certificate_arn
     minimum_protocol_version = "TLSv1"
     ssl_support_method       = "sni-only"
   }

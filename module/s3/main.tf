@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "site" {
-  bucket = "${var.bucket_name}"
+  bucket = var.bucket_name
   acl    = "public-read"
 
   policy = <<POLICY

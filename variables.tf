@@ -1,5 +1,5 @@
 variable "host_names" {
-  type = "list"
+  type = list(string)
 
   default = [
     "example.com",
@@ -17,7 +17,7 @@ variable "domain_name" {
 }
 
 variable "additional_certificate_domains" {
-  type = "list"
+  type = list(string)
 
   default = [
     "me.example.com",

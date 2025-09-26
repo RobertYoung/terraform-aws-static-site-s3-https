@@ -1,7 +1,15 @@
 variable "host_names" {
-  type = "list"
+  type = list(string)
 }
 
-variable "domain_name" {}
-variable "bucket_name" {}
-variable "certificate_arn" {}
+variable "domain_name" {
+  type = string
+}
+
+variable "bucket_name" {
+  type = string
+}
+
+variable "certificate_arn" {
+  type = string
+}

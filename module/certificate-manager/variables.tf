@@ -1,5 +1,7 @@
 variable "additional_certificate_domains" {
-  type = "list"
+  type = list(string)
 }
 
-variable "domain_name" {}
+variable "domain_name" {
+  type = string
+}

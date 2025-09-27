@@ -9,9 +9,18 @@ updates:
       include: "scope"
 
   - package-ecosystem: "terraform"
-    directory: "/"
+    directories:
+      - "/"
+      - "/module/s3"
+      - "/module/cloudfront"
+      - "/module/certificate-manager"
+      - "/module/route53"
     schedule:
       interval: "weekly"
     commit-message:
       prefix: "terraform"
       include: "scope"
+    groups:
+      terraform:
+        patterns:
+          - "*"

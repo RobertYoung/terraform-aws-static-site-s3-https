@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.1](https://github.com/RobertYoung/terraform-aws-static-site-s3-https/compare/v2.0.0...v2.0.1) (2025-09-27)
+
+
+### Bug Fixes
+
+* rename modules and fix aws warning ([9315c96](https://github.com/RobertYoung/terraform-aws-static-site-s3-https/commit/9315c9698b5cedcb874212545052dbbeb89f4c61))
+
 ## [2.0.0](https://github.com/RobertYoung/terraform-aws-static-site-s3-https/compare/v1.0.0...v2.0.0) (2025-09-27)
 
 

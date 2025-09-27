@@ -1,0 +1,49 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+
+  - package-ecosystem: "terraform"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "terraform"
+      include: "scope"
+
+  - package-ecosystem: "terraform"
+    directory: "/module/s3"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "terraform"
+      include: "scope"
+
+  - package-ecosystem: "terraform"
+    directory: "/module/cloudfront"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "terraform"
+      include: "scope"
+
+  - package-ecosystem: "terraform"
+    directory: "/module/certificate-manager"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "terraform"
+      include: "scope"
+
+  - package-ecosystem: "terraform"
+    directory: "/module/route53"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "terraform"
+      include: "scope"

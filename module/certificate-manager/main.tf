@@ -3,7 +3,7 @@ data "aws_route53_zone" "external" {
 }
 
 resource "aws_acm_certificate" "default" {
-  provider                  = aws.useast1
+  provider = aws.useast1
 
   domain_name               = var.domain_name
   subject_alternative_names = var.additional_certificate_domains
@@ -12,8 +12,8 @@ resource "aws_acm_certificate" "default" {
 
 
 resource "aws_acm_certificate_validation" "default" {
-  provider                = aws.useast1
-  
+  provider = aws.useast1
+
   count                   = length(var.additional_certificate_domains)
   certificate_arn         = element(aws_acm_certificate.default.*.arn, count.index)
   validation_record_fqdns = aws_route53_record.validation.*.fqdn
@@ -24,7 +24,7 @@ locals {
 }
 
 resource "aws_route53_record" "validation" {
-  count   = length(var.additional_certificate_domains) + 1
+  count = length(var.additional_certificate_domains) + 1
 
   zone_id = data.aws_route53_zone.external.zone_id
   ttl     = 60

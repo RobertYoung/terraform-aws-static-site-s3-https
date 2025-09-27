@@ -1,0 +1,15 @@
+branch: main
+directory:
+ - .
+framework:
+  - terraform
+skip-check:
+  - CKV_AWS_144
+  - CKV_AWS_145
+  - CKV2_AWS_47
+  - CKV_AWS_18
+  - CKV2_AWS_62
+  - CKV_AWS_374
+  - CKV_AWS_310
+  - CKV_AWS_68
+  - CKV_AWS_86

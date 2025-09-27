@@ -6,7 +6,6 @@
 - Sets up a CloudFront distribution pointing towards the S3 bucket
 - Adds an A alias record in Route53 pointing towards CloudFront
 
-
 ## Getting Started
 
 Terraform assumes that the domain name has already been registered on Route53.
@@ -36,4 +35,12 @@ module "my-site" {
     "www.example.co.uk",
   ]
 }
+```
+
+## Development
+
+Run local checkov scan:
+
+```
+checkov
 ```

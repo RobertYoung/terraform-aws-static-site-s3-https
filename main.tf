@@ -11,6 +11,29 @@ module "cloudfront" {
   certificate_arn = module.certificate-manager.certificate_arn
 }
 
+resource "aws_s3_bucket_policy" "cloudfront_oac" {
+  bucket = module.s3.bucket_id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "cloudfront.amazonaws.com"
+        }
+        Action   = "s3:GetObject"
+        Resource = "${module.s3.bucket_arn}/*"
+        Condition = {
+          StringEquals = {
+            "AWS:SourceArn" = module.cloudfront.distribution_arn
+          }
+        }
+      }
+    ]
+  })
+}
+
 module "certificate-manager" {
   source                         = "./module/certificate-manager"
   additional_certificate_domains = var.additional_certificate_domains

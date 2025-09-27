@@ -1,2 +1,3 @@
 [tools]
+checkov = "latest"
 claude = "latest"

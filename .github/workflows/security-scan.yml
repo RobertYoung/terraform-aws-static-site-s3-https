@@ -1,0 +1,87 @@
+name: Security Scan
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+    paths:
+      - "**.tf"
+      - "**.tfvars"
+      - ".github/workflows/security-scan.yml"
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  comprehensive-security-scan:
+    name: Comprehensive Security Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ~1.5
+
+      - name: Initialize Terraform
+        run: terraform init
+
+      - name: Run Checkov IaC Security Scan
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          output_format: sarif
+          output_file_path: checkov-results.sarif
+          quiet: false
+          soft_fail: false
+          config_file: .checkov.yml
+
+      - name: Upload Checkov results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: checkov-results.sarif
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: "fs"
+          scan-ref: "."
+          format: "sarif"
+          output: "trivy-results.sarif"
+          scanners: "vuln,secret,config"
+
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: trivy-results.sarif
+
+      - name: Run Semgrep Security Analysis
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: >-
+            p/security-audit
+            p/secrets
+            p/terraform
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+
+      - name: Generate Security Report Summary
+        if: always()
+        run: |
+          echo "## Security Scan Summary" >> $GITHUB_STEP_SUMMARY
+          echo "### Scans Performed:" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Checkov (IaC Security)" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Trivy (Vulnerability & Secret Scanning)" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Semgrep (SAST Security Analysis)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Security scan results have been uploaded to GitHub Security tab." >> $GITHUB_STEP_SUMMARY

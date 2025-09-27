@@ -9,12 +9,7 @@ updates:
       include: "scope"
 
   - package-ecosystem: "terraform"
-    directories:
-      - "/"
-      - "/module/s3"
-      - "/module/cloudfront"
-      - "/module/certificate-manager"
-      - "/module/route53"
+    directory: "/"
     schedule:
       interval: "weekly"
     commit-message:

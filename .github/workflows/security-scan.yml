@@ -3,15 +3,9 @@ name: Security Scan
 on:
   schedule:
     - cron: "0 6 * * 1"
-  workflow_dispatch:
+  workflow_call:
   pull_request:
     branches: [main]
-  push:
-    branches: [main]
-    paths:
-      - "**.tf"
-      - "**.tfvars"
-      - ".github/workflows/security-scan.yml"
 
 permissions:
   contents: read

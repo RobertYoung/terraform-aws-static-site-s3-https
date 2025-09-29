@@ -1,4 +1,4 @@
-name: PR Validation
+name: Validation
 
 on:
   pull_request:
@@ -8,9 +8,12 @@ on:
       - "**.tfvars"
       - ".github/workflows/pr-check.yml"
 
+permissions:
+  contents: read
+
 jobs:
   terraform-check:
-    name: Terraform Format and Validate
+    name: Terraform Validation
     runs-on: ubuntu-latest
 
     steps:
@@ -30,3 +33,22 @@ jobs:
 
       - name: Terraform Validate
         run: terraform validate
+
+      - uses: actions/cache@v4
+        name: Cache plugin dir
+        with:
+          path: ~/.tflint.d/plugins
+          key: ${{ matrix.os }}-tflint-${{ hashFiles('.tflint.hcl') }}
+
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v5
+        with:
+          tflint_version: v0.52.0
+
+      - name: Init TFLint
+        run: tflint --init
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run TFLint
+        run: tflint --recursive -f compact

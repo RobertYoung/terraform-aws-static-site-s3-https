@@ -9,12 +9,14 @@ on:
 
 permissions:
   contents: read
-  security-events: write
 
 jobs:
   comprehensive-security-scan:
     name: Comprehensive Security Analysis
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
 
     steps:
       - name: Harden the runner (Audit all outbound calls)

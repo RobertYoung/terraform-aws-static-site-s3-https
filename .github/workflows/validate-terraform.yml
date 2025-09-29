@@ -4,10 +4,6 @@ on:
   workflow_call:
   pull_request:
     branches: [main]
-    paths:
-      - "**.tf"
-      - "**.tfvars"
-      - ".github/workflows/validate-terraform.yml"
 
 permissions:
   contents: read

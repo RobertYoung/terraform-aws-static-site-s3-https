@@ -19,12 +19,12 @@ resource "aws_acm_certificate_validation" "default" {
   provider = aws.useast1
 
   count                   = length(var.additional_certificate_domains)
-  certificate_arn         = element(aws_acm_certificate.default.*.arn, count.index)
-  validation_record_fqdns = aws_route53_record.validation.*.fqdn
+  certificate_arn         = element(aws_acm_certificate.default[*].arn, count.index)
+  validation_record_fqdns = aws_route53_record.validation[*].fqdn
 }
 
 locals {
-  dvo = flatten(aws_acm_certificate.default.*.domain_validation_options)
+  dvo = flatten(aws_acm_certificate.default[*].domain_validation_options)
 }
 
 resource "aws_route53_record" "validation" {
@@ -32,7 +32,7 @@ resource "aws_route53_record" "validation" {
 
   zone_id = data.aws_route53_zone.external.zone_id
   ttl     = 60
-  name    = lookup(local.dvo[count.index], "resource_record_name")
-  type    = lookup(local.dvo[count.index], "resource_record_type")
-  records = [lookup(local.dvo[count.index], "resource_record_value")]
+  name    = local.dvo[count.index]["resource_record_name"]
+  type    = local.dvo[count.index]["resource_record_type"]
+  records = [local.dvo[count.index]["resource_record_value"]]
 }

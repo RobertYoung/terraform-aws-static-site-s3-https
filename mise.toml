@@ -1,3 +1,4 @@
 [tools]
 checkov = "latest"
 claude = "latest"
+tflint = "latest"

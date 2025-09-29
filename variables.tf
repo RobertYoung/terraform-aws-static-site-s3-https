@@ -9,10 +9,12 @@ variable "host_names" {
 }
 
 variable "bucket_name" {
+  type    = string
   default = "me.example.com"
 }
 
 variable "domain_name" {
+  type    = string
   default = "example.com"
 }
 

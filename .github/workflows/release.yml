@@ -15,8 +15,8 @@ permissions:
 
 jobs:
   validation:
-    name: Validation
-    uses: ./.github/workflows/validation.yml
+    name: Terraform Validation
+    uses: ./.github/workflows/validate-terraform.yml
 
   security-scan:
     name: Security Scanning

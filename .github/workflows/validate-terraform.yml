@@ -1,4 +1,4 @@
-name: Validation
+name: Validate Terraform
 
 on:
   workflow_call:
@@ -7,7 +7,7 @@ on:
     paths:
       - "**.tf"
       - "**.tfvars"
-      - ".github/workflows/pr-check.yml"
+      - ".github/workflows/validate-terraform.yml"
 
 permissions:
   contents: read

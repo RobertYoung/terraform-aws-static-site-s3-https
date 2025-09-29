@@ -1,5 +1,8 @@
 # Terraform AWS S3 Static Site + CloudFront + Route53
 
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/11246/badge)](https://www.bestpractices.dev/projects/11246)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/RobertYoung/terraform-aws-static-site-s3-https/badge)](https://securityscorecards.dev/viewer/?uri=github.com/RobertYoung/terraform-aws-static-site-s3-https)
+
 ## What does this do?
 
 - Creates an S3 bucket to store the static stie

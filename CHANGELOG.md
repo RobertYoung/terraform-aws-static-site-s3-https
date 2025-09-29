@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.2](https://github.com/RobertYoung/terraform-aws-static-site-s3-https/compare/v2.0.1...v2.0.2) (2025-09-29)
+
+
+### Bug Fixes
+
+* fixes ci workflows ([98bc4ac](https://github.com/RobertYoung/terraform-aws-static-site-s3-https/commit/98bc4acd4d7b094a466dc1a08e6137f5fd4e0260))
+
 ## [2.0.1](https://github.com/RobertYoung/terraform-aws-static-site-s3-https/compare/v2.0.0...v2.0.1) (2025-09-27)
 
 

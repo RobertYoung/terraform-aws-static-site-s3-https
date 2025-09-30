@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.3](https://github.com/RobertYoung/terraform-aws-static-site-s3-https/compare/v2.0.2...v2.0.3) (2025-09-30)
+
+
+### Bug Fixes
+
+* adds missing codeowners file ([71366cd](https://github.com/RobertYoung/terraform-aws-static-site-s3-https/commit/71366cd3b2b8e25a474450f4c5f87b4a1dc168c1))
+* fixes release workflow permissions ([8d12306](https://github.com/RobertYoung/terraform-aws-static-site-s3-https/commit/8d12306690af9a0f1c098cd89b5e59e7bd18605a))
+
 ## [2.0.2](https://github.com/RobertYoung/terraform-aws-static-site-s3-https/compare/v2.0.1...v2.0.2) (2025-09-29)
 
 

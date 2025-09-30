@@ -16,7 +16,7 @@ We take security vulnerabilities seriously. If you discover a security issue, pl
 ### How to Report
 
 1. **Do NOT** create a public GitHub issue for security vulnerabilities
-2. Contact the repository owner directly
+2. Contact the repository owner directly or via [me@iamrobertyoung.co.uk](mailto:me@iamrobertyoung.co.uk)
 3. Include the following information:
    - Description of the vulnerability
    - Steps to reproduce the issue

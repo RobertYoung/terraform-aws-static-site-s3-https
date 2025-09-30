@@ -25,6 +25,7 @@ provider "aws" {
 module "my-site" {
   source = "github.com/robertyoung/terraform-aws-static-site-s3-https"
 
+
   host_names = [
     "example.co.uk",
     "me.example.co.uk",
@@ -43,46 +44,48 @@ module "my-site" {
 ```
 
 <!-- BEGIN_TF_DOCS -->
+
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 6.0 |
+| Name                                                                     | Version |
+| ------------------------------------------------------------------------ | ------- |
+| <a name="requirement_terraform"></a> [terraform](#requirement_terraform) | >= 1.0  |
+| <a name="requirement_aws"></a> [aws](#requirement_aws)                   | ~> 6.0  |
 
 ## Providers
 
-| Name | Version |
-|------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.14.1 |
+| Name                                             | Version |
+| ------------------------------------------------ | ------- |
+| <a name="provider_aws"></a> [aws](#provider_aws) | 6.14.1  |
 
 ## Modules
 
-| Name | Source | Version |
-|------|--------|---------|
-| <a name="module_certificate-manager"></a> [certificate-manager](#module\_certificate-manager) | ./modules/certificate-manager | n/a |
-| <a name="module_cloudfront"></a> [cloudfront](#module\_cloudfront) | ./modules/cloudfront | n/a |
-| <a name="module_route53"></a> [route53](#module\_route53) | ./modules/route53 | n/a |
-| <a name="module_s3"></a> [s3](#module\_s3) | ./modules/s3 | n/a |
+| Name                                                                                         | Source                        | Version |
+| -------------------------------------------------------------------------------------------- | ----------------------------- | ------- |
+| <a name="module_certificate-manager"></a> [certificate-manager](#module_certificate-manager) | ./modules/certificate-manager | n/a     |
+| <a name="module_cloudfront"></a> [cloudfront](#module_cloudfront)                            | ./modules/cloudfront          | n/a     |
+| <a name="module_route53"></a> [route53](#module_route53)                                     | ./modules/route53             | n/a     |
+| <a name="module_s3"></a> [s3](#module_s3)                                                    | ./modules/s3                  | n/a     |
 
 ## Resources
 
-| Name | Type |
-|------|------|
+| Name                                                                                                                                | Type     |
+| ----------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | [aws_s3_bucket_policy.cloudfront_oac](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy) | resource |
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_additional_certificate_domains"></a> [additional\_certificate\_domains](#input\_additional\_certificate\_domains) | n/a | `list(string)` | <pre>[<br/>  "me.example.com",<br/>  "www.example.com"<br/>]</pre> | no |
-| <a name="input_bucket_name"></a> [bucket\_name](#input\_bucket\_name) | n/a | `string` | `"me.example.com"` | no |
-| <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | n/a | `string` | `"example.com"` | no |
-| <a name="input_host_names"></a> [host\_names](#input\_host\_names) | n/a | `list(string)` | <pre>[<br/>  "example.com",<br/>  "me.example.com",<br/>  "www.example.com"<br/>]</pre> | no |
+| Name                                                                                                                        | Description | Type           | Default                                                                              | Required |
+| --------------------------------------------------------------------------------------------------------------------------- | ----------- | -------------- | ------------------------------------------------------------------------------------ | :------: |
+| <a name="input_additional_certificate_domains"></a> [additional_certificate_domains](#input_additional_certificate_domains) | n/a         | `list(string)` | <pre>[<br/> "me.example.com",<br/> "www.example.com"<br/>]</pre>                     |    no    |
+| <a name="input_bucket_name"></a> [bucket_name](#input_bucket_name)                                                          | n/a         | `string`       | `"me.example.com"`                                                                   |    no    |
+| <a name="input_domain_name"></a> [domain_name](#input_domain_name)                                                          | n/a         | `string`       | `"example.com"`                                                                      |    no    |
+| <a name="input_host_names"></a> [host_names](#input_host_names)                                                             | n/a         | `list(string)` | <pre>[<br/> "example.com",<br/> "me.example.com",<br/> "www.example.com"<br/>]</pre> |    no    |
 
 ## Outputs
 
 No outputs.
+
 <!-- END_TF_DOCS -->
 
 ## Contributing

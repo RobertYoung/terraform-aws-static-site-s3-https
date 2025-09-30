@@ -1,4 +1,6 @@
 [tools]
-checkov = "latest"
-claude = "latest"
-tflint = "latest"
+checkov = "3.2.471"
+claude = "1.0.127"
+terraform = "1.13.3"
+terraform-docs = "0.20.0"
+tflint = "0.59.1"

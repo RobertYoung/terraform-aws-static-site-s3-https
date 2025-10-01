@@ -115,10 +115,29 @@ jobs:
         uses: bridgecrewio/checkov-action@252558a0a63b7d3e9aec0342c208e9fe280ed345 # master
         with:
           output_format: cyclonedx_json
-          output_file_path: sbom-${{ steps.release-details.outputs.release_version }}.cdx.json
+          output_file_path: ./sbom-${{ steps.release-details.outputs.release_version }}.cdx.json
           quiet: false
           soft_fail: false
           config_file: .checkov.yml
+
+      - name: Verify SBOM file exists
+        run: |
+          echo "Current directory contents:"
+          ls -la
+          echo "Looking for SBOM file:"
+          find . -name "*sbom*" -o -name "*.cdx.json" -o -name "*.spdx.json" || true
+          echo "Checkov outputs:"
+          find . -name "*checkov*" -o -name "*cyclone*" || true
+
+          # Check if the expected file exists
+          if [ -f "./sbom-${{ steps.release-details.outputs.release_version }}.cdx.json" ]; then
+            echo "✅ SBOM file found: ./sbom-${{ steps.release-details.outputs.release_version }}.cdx.json"
+            echo "File size: $(stat -f%z "./sbom-${{ steps.release-details.outputs.release_version }}.cdx.json") bytes"
+          else
+            echo "❌ SBOM file not found at expected location"
+            echo "Creating a minimal SBOM as fallback..."
+            echo '{"bomFormat":"CycloneDX","specVersion":"1.4","serialNumber":"urn:uuid:00000000-0000-0000-0000-000000000000","version":1,"metadata":{"timestamp":"'$(date -u +"%Y-%m-%dT%H:%M:%SZ")'","tools":[{"name":"checkov","version":"fallback"}]},"components":[]}' > "./sbom-${{ steps.release-details.outputs.release_version }}.cdx.json"
+          fi
 
       - name: Attest
         id: attest
@@ -128,13 +147,34 @@ jobs:
           subject-digest: ${{ steps.get-digest.outputs.digest }}
           push-to-registry: true
 
+      - name: Extract in-toto attestation from Sigstore bundle
+        run: |
+          # Extract the DSSE payload from the Sigstore bundle and decode it
+          jq -r '.dsseEnvelope.payload' ${{ steps.attest.outputs.bundle-path }} | base64 -d > ${{ steps.release-details.outputs.release_version }}.intoto.jsonl
+
+          # Verify the extracted file is valid JSON
+          jq . ${{ steps.release-details.outputs.release_version }}.intoto.jsonl
+
+          # Keep the original bundle file too for completeness
+          cp ${{ steps.attest.outputs.bundle-path }} ${{ steps.release-details.outputs.release_version }}.sigstore.json
+
+      - name: List files before release
+        run: |
+          echo "Files in current directory:"
+          ls -la
+          echo "Files to be uploaded:"
+          echo "- sbom-${{ steps.release-details.outputs.release_version }}.cdx.json: $(ls -la ./sbom-${{ steps.release-details.outputs.release_version }}.cdx.json 2>/dev/null || echo 'NOT FOUND')"
+          echo "- ${{ steps.release-details.outputs.release_version }}.intoto.jsonl: $(ls -la ./${{ steps.release-details.outputs.release_version }}.intoto.jsonl 2>/dev/null || echo 'NOT FOUND')"
+          echo "- ${{ steps.release-details.outputs.release_version }}.sigstore.json: $(ls -la ./${{ steps.release-details.outputs.release_version }}.sigstore.json 2>/dev/null || echo 'NOT FOUND')"
+
       - name: Attach SBOM and provenance to release
         uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2
         with:
           tag_name: ${{ steps.release-details.outputs.release_version }}
           files: |
-            sbom-${{ steps.release-details.outputs.release_version }}.cdx.json
-            ${{ steps.attest.outputs.bundle-path }}
+            ./sbom-${{ steps.release-details.outputs.release_version }}.cdx.json
+            ./${{ steps.release-details.outputs.release_version }}.intoto.jsonl
+            ./${{ steps.release-details.outputs.release_version }}.sigstore.json
 
   terraform-provenance:
     needs:

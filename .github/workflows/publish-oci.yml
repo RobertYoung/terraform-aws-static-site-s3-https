@@ -110,13 +110,6 @@ jobs:
               --certificate-identity-regexp "https://github.com/${{ github.repository }}/*" \
               --certificate-oidc-issuer https://token.actions.githubusercontent.com
 
-      # - name: Generate SBOM
-      #   uses: anchore/sbom-action@da167eac915b4e86f08b264dbdbc867b61be6f0c # v0.20.5
-      #   with:
-      #     path: ${{ steps.release-details.outputs.package_name }}.tar.gz
-      #     artifact-name: sbom-${{ steps.release-details.outputs.release_version }}.spdx.json
-      #     output-file: ./sbom.spdx.json
-
       - name: Generate SBOM
         id: checkov
         uses: bridgecrewio/checkov-action@252558a0a63b7d3e9aec0342c208e9fe280ed345 # master
@@ -127,18 +120,33 @@ jobs:
           soft_fail: false
           config_file: .checkov.yml
 
-      - name: Attach SBOM to release
-        uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2
+      - run: ls -lah
+
+      - name: Generate SBOM attestation
+        id: sbom-attest
+        uses: actions/attest-sbom@v2
         with:
-          tag_name: ${{ steps.release-details.outputs.release_version }}
-          files: ./sbom-${{ steps.release-details.outputs.release_version }}.cdx.json
+          subject-path: ${{ steps.release-details.outputs.image }}
+          subject-digest: ${{ steps.get-digest.outputs.digest }}
+          sbom-path: sbom-${{ steps.release-details.outputs.release_version }}.cdx.json
+          push-to-registry: true
 
       - name: Attest
+        id: attest
         uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a # v3.0.0
         with:
           subject-name: ${{ steps.release-details.outputs.image }}
           subject-digest: ${{ steps.get-digest.outputs.digest }}
           push-to-registry: true
+
+      - name: Attach SBOMS and provenance to release
+        uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2
+        with:
+          tag_name: ${{ steps.release-details.outputs.release_version }}
+          files: |
+            sbom-${{ steps.release-details.outputs.release_version }}.cdx.json
+            ${{ steps.attest.outputs.bundle-path }}
+            ${{ steps.sbom-attest.outputs.bundle-path }}
 
   terraform-provenance:
     needs:

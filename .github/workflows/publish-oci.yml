@@ -1,21 +1,15 @@
 name: Publish OCI Module
 
 on:
-  workflow_call:
-    inputs:
-      package_name:
-        required: true
-        type: string
-        default: terraform-aws-static-site-s3-https
-      release_version:
-        required: true
-        type: string
+  release:
+    types: [published]
 
 permissions:
   contents: read
 
 env:
   REGISTRY: ghcr.io
+  PACKAGE_NAME: terraform-aws-static-site-s3-https
 
 jobs:
   publish-oci:
@@ -48,13 +42,13 @@ jobs:
         id: release-details
         run: |
           echo release_name=$REPO_NAME >> $GITHUB_OUTPUT
-          echo release_version=${{ inputs.release_version }} >> $GITHUB_OUTPUT
+          echo release_version=${{ github.event.release.tag_name }} >> $GITHUB_OUTPUT
           echo $REPO_NAME
-          echo ${{ inputs.release_version }}
+          echo ${{ github.event.release.tag_name }}
 
       - name: Generate Terraform module package
         run: |
-          tar -czf ${{ inputs.package_name }}.tar.gz \
+          tar -czf ${{ env.PACKAGE_NAME }}.tar.gz \
             *.tf modules/
 
       - name: Login to GitHub Container Registry
@@ -81,7 +75,7 @@ jobs:
             --annotation "org.opencontainers.image.documentation=https://github.com/${{ github.repository }}" \
             --annotation "org.opencontainers.image.issue-tracker=https://github.com/${{ github.repository }}/issues" \
             --annotation "org.opencontainers.image.licenses=Apache-2.0" \
-            ${{ inputs.package_name }}.tar.gz
+            ${{ env.PACKAGE_NAME }}.tar.gz
 
       - name: Setup Crane
         uses: imjasonh/setup-crane@31b88efe9de28ae0ffa220711af4b60be9435f6e # v0.4

@@ -68,7 +68,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Oras
-        uses: oras-project/setup-oras@v1
+        uses: oras-project/setup-oras@22ce207df3b08e061f537244349aac6ae1d214f6 # v1
 
       - name: Push Terraform module to GHCR
         run: |
@@ -120,25 +120,6 @@ jobs:
           soft_fail: false
           config_file: .checkov.yml
 
-      - name: Verify SBOM file exists
-        run: |
-          echo "Current directory contents:"
-          ls -la
-          echo "Looking for SBOM file:"
-          find . -name "*sbom*" -o -name "*.cdx.json" -o -name "*.spdx.json" || true
-          echo "Checkov outputs:"
-          find . -name "*checkov*" -o -name "*cyclone*" || true
-
-          # Check if the expected file exists
-          if [ -f "./results_cyclonedx.json" ]; then
-            echo "✅ SBOM file found: ./results_cyclonedx.json"
-            echo "File size: $(stat -f%z "./results_cyclonedx.json") bytes"
-          else
-            echo "❌ SBOM file not found at expected location"
-            echo "Creating a minimal SBOM as fallback..."
-            echo '{"bomFormat":"CycloneDX","specVersion":"1.4","serialNumber":"urn:uuid:00000000-0000-0000-0000-000000000000","version":1,"metadata":{"timestamp":"'$(date -u +"%Y-%m-%dT%H:%M:%SZ")'","tools":[{"name":"checkov","version":"fallback"}]},"components":[]}' > "./results_cyclonedx.json"
-          fi
-
       - name: Attest
         id: attest
         uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a # v3.0.0
@@ -160,7 +141,6 @@ jobs:
 
       - name: Rename SBOM to standard filename
         run: |
-          ls -lah ./results_cyclonedx.json
           mv ./results_cyclonedx.json ${{ steps.release-details.outputs.package_name }}.cdx.json
 
       - name: Attach SBOM and provenance to release

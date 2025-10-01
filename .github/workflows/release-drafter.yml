@@ -39,6 +39,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Validate Semantic Release Output
+        run: |
+          if [ -z "${{ steps.semantic-release.outputs.new_release_version }}" ]; then
+            echo "❌ Error: Semantic release did not generate a version number"
+            echo "This usually means:"
+            echo "  - No commits with feat/fix/breaking changes since last release"
+            echo "  - Semantic release configuration issue"
+            echo "  - Git history or tags issue"
+            exit 1
+          fi
+          echo "✅ Next version will be: ${{ steps.semantic-release.outputs.new_release_version }}"
+
       - uses: release-drafter/release-drafter@3f0f87098bd6b5c5b9a36d49c41d998ea58f9348 # v6.0.0
         with:
           version: ${{ steps.semantic-release.outputs.new_release_version }}

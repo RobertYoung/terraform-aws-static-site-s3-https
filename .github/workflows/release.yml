@@ -64,7 +64,7 @@ jobs:
       package_name: terraform-aws-static-site-s3-httpss
       release_version: ${{ needs.release.outputs.new_release_version }}
     permissions:
-      contents: read
-      packages: write
-      id-token: write
       attestations: write
+      contents: write
+      id-token: write
+      packages: write

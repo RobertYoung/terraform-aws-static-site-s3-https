@@ -113,7 +113,7 @@ jobs:
       - name: Generate SBOM
         uses: anchore/sbom-action@da167eac915b4e86f08b264dbdbc867b61be6f0c # v0.20.5
         with:
-          image: "${{ steps.release-details.outputs.image }}:${{ steps.get-digest.outputs.digest }}"
+          image: "${{ steps.release-details.outputs.image }}@${{ steps.get-digest.outputs.digest }}"
           output-file: ./sbom.spdx.json
 
       - name: Attest

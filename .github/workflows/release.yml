@@ -1,8 +1,9 @@
 name: Release
 
 on:
-  push:
-    branches: [main]
+  release:
+    types: [published] # Trigger when draft release is manually published
+  workflow_dispatch: # Allow manual trigger for testing
 
 permissions:
   contents: read
@@ -19,8 +20,8 @@ jobs:
       contents: read
       security-events: write
 
-  release:
-    name: Create Release
+  finalize-release:
+    name: Finalize Release
     runs-on: ubuntu-latest
     needs: [validation, security-scan]
     permissions:
@@ -47,7 +48,7 @@ jobs:
           fetch-depth: 0
           token: ${{ steps.app-token.outputs.token }}
 
-      - name: Release
+      - name: Semantic Release
         id: semantic-release
         uses: cycjimmy/semantic-release-action@9cc899c47e6841430bbaedb43de1560a568dfd16 # v5.0.0
         with:
@@ -61,11 +62,12 @@ jobs:
 
   publish-oci:
     name: Publish OCI Module
-    needs: release
+    needs: finalize-release
+    if: needs.finalize-release.outputs.new_release_version != ''
     uses: ./.github/workflows/publish-oci.yml
     with:
-      package_name: terraform-aws-static-site-s3-httpss
-      release_version: ${{ needs.release.outputs.new_release_version }}
+      package_name: terraform-aws-static-site-s3-https
+      release_version: ${{ needs.finalize-release.outputs.new_release_version }}
     permissions:
       attestations: write
       contents: write

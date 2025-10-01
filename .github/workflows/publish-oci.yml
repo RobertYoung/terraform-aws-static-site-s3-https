@@ -115,7 +115,7 @@ jobs:
         uses: bridgecrewio/checkov-action@252558a0a63b7d3e9aec0342c208e9fe280ed345 # master
         with:
           output_format: cyclonedx_json
-          output_file_path: ./sbom-${{ steps.release-details.outputs.release_version }}.cdx.json
+          output_file_path: reports/sbom-${{ steps.release-details.outputs.release_version }}.cdx.json
           quiet: false
           soft_fail: false
           config_file: .checkov.yml

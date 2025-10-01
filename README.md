@@ -43,6 +43,41 @@ module "my-site" {
 }
 ```
 
+## Verification
+
+This module is signed and attested for supply chain security. You can verify the signatures and attestations using the following methods:
+
+### GitHub Attestations
+
+Verify the GitHub-generated attestations using the GitHub CLI:
+
+```bash
+gh attestation verify oci://ghcr.io/robertyoung/terraform-aws-static-site-s3-https:v2.0.12 --repo robertyoung/terraform-aws-static-site-s3-https
+```
+
+### SLSA Provenance
+
+Verify the SLSA provenance using Cosign:
+
+```bash
+cosign verify-attestation \
+      --type slsaprovenance \
+      --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+      --certificate-identity-regexp '^https://github.com/slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@refs/tags/v[0-9]+.[0-9]+.[0-9]+$' \
+      ghcr.io/robertyoung/terraform-aws-static-site-s3-https:v2.0.12
+```
+
+### OCI Artifact Signature
+
+Verify the Cosign signature on the OCI artifact:
+
+```bash
+cosign verify \
+      --certificate-identity-regexp "https://github.com/RobertYoung/terraform-aws-static-site-s3-https/*" \
+      --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+      ghcr.io/robertyoung/terraform-aws-static-site-s3-https:v2.0.12
+```
+
 <!-- BEGIN_TF_DOCS -->
 
 ## Requirements

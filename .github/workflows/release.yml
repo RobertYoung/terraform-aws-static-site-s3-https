@@ -28,7 +28,7 @@ jobs:
       pull-requests: write
       security-events: write
     outputs:
-      new_release_version: ${{ steps.release.outputs.new_release_version }}
+      new_release_version: ${{ steps.semantic-release.outputs.new_release_version }}
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
@@ -48,6 +48,7 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
 
       - name: Release
+        id: semantic-release
         uses: cycjimmy/semantic-release-action@9cc899c47e6841430bbaedb43de1560a568dfd16 # v5.0.0
         with:
           semantic_version: 23.0.2

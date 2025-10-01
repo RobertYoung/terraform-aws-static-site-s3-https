@@ -2,7 +2,6 @@
 
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/11246/badge)](https://www.bestpractices.dev/projects/11246)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/RobertYoung/terraform-aws-static-site-s3-https/badge)](https://securityscorecards.dev/viewer/?uri=github.com/RobertYoung/terraform-aws-static-site-s3-https)
-[![Release](https://github.com/RobertYoung/terraform-aws-static-site-s3-https/actions/workflows/release.yml/badge.svg)](https://github.com/RobertYoung/terraform-aws-static-site-s3-https/actions/workflows/release.yml)
 [![Dependabot Updates](https://github.com/RobertYoung/terraform-aws-static-site-s3-https/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/RobertYoung/terraform-aws-static-site-s3-https/actions/workflows/dependabot/dependabot-updates)
 
 ## What does this do?

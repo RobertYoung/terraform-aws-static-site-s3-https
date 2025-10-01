@@ -21,11 +21,6 @@ jobs:
         with:
           egress-policy: audit
 
-      - name: Checkout
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-        with:
-          fetch-depth: 0
-
       - name: Semantic Release (Dry Run)
         id: semantic-release
         uses: cycjimmy/semantic-release-action@9cc899c47e6841430bbaedb43de1560a568dfd16 # v5.0.0
@@ -36,8 +31,6 @@ jobs:
             @semantic-release/changelog@6.0.3
             @semantic-release/git@10.0.1
             conventional-changelog-conventionalcommits@7.0.2
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
 
       - uses: release-drafter/release-drafter@3f0f87098bd6b5c5b9a36d49c41d998ea58f9348 # v6.0.0
         with:

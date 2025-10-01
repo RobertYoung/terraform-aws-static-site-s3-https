@@ -147,7 +147,10 @@ jobs:
       - publish-oci
       - terraform-provenance
     runs-on: ubuntu-latest
-    permissions: read-all
+    permissions:
+      contents: read
+      id-token: write
+      packages: read
     steps:
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3

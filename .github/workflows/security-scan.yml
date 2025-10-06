@@ -36,7 +36,7 @@ jobs:
 
       - name: Run Checkov IaC Security Scan
         id: checkov
-        uses: bridgecrewio/checkov-action@252558a0a63b7d3e9aec0342c208e9fe280ed345 # master
+        uses: bridgecrewio/checkov-action@9b463a337f7113e586abb33353eb4507177f5919 # master
         with:
           output_format: sarif
           output_file_path: checkov-results.sarif

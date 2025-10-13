@@ -112,7 +112,7 @@ jobs:
 
       - name: Generate SBOM
         id: checkov
-        uses: bridgecrewio/checkov-action@252558a0a63b7d3e9aec0342c208e9fe280ed345 # master
+        uses: bridgecrewio/checkov-action@cba89e33f08479973cadc681333ffe84f7c8e824 # master
         with:
           output_format: cyclonedx_json
           output_file_path: results_cyclonedx.json,

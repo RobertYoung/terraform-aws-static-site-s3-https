@@ -45,7 +45,7 @@ jobs:
           config_file: .checkov.yml
 
       - name: Upload Checkov results to GitHub Security
-        uses: github/codeql-action/upload-sarif@3599b3baa15b485a2e49ef411a7a4bb2452e7f93 # v3.30.5
+        uses: github/codeql-action/upload-sarif@16140ae1a102900babc80a33c44059580f687047 # v4.30.9
         if: always()
         with:
           sarif_file: checkov-results.sarif
@@ -60,7 +60,7 @@ jobs:
           scanners: "vuln,secret"
 
       - name: Upload Trivy results to GitHub Security
-        uses: github/codeql-action/upload-sarif@3599b3baa15b485a2e49ef411a7a4bb2452e7f93 # v3.30.5
+        uses: github/codeql-action/upload-sarif@16140ae1a102900babc80a33c44059580f687047 # v4.30.9
         if: always()
         with:
           sarif_file: trivy-results.sarif

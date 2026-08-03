@@ -1,3 +1,3 @@
 output "certificate_arn" {
-  value = aws_acm_certificate_validation.default[*].certificate_arn[0]
+  value = aws_acm_certificate_validation.default[0].certificate_arn
 }

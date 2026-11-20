@@ -7,6 +7,18 @@ updates:
     commit-message:
       prefix: "ci"
       include: "scope"
+    groups:
+      actions:
+        update-types:
+          - "minor"
+          - "patch"
+        patterns:
+          - "*"
+      actions-major:
+        update-types:
+          - "major"
+        patterns:
+          - "*"
 
   - package-ecosystem: "terraform"
     directories:

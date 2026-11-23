@@ -1,1 +1,4 @@
 * @RobertYoung
+
+# Owner-less so Dependabot github-actions updates are not held by the ruleset's code owner review; later matches win.
+/.github/workflows/

@@ -196,8 +196,10 @@ jobs:
         env:
           IMAGE: "${{ needs.publish-oci.outputs.image }}"
           DIGEST: ${{ needs.publish-oci.outputs.digest }}
+        # slsa-github-generator writes a legacy .att attestation, but Cosign v3 reads only OCI referrer bundles when any exist, and attest-build-provenance always pushes one.
         run: |
           cosign verify-attestation \
+              --new-bundle-format=false \
               --type slsaprovenance \
               --certificate-oidc-issuer https://token.actions.githubusercontent.com \
               --certificate-identity-regexp '^https://github.com/slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@refs/tags/v[0-9]+.[0-9]+.[0-9]+$' \

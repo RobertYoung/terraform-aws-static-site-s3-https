@@ -60,6 +60,7 @@ Verify the SLSA provenance using Cosign:
 
 ```bash
 cosign verify-attestation \
+      --new-bundle-format=false \
       --type slsaprovenance \
       --certificate-oidc-issuer https://token.actions.githubusercontent.com \
       --certificate-identity-regexp '^https://github.com/slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@refs/tags/v[0-9]+.[0-9]+.[0-9]+$' \
